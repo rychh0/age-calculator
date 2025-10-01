@@ -1,50 +1,30 @@
-import datetime
-import streamlit as st
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calculadora de Edad</title>
+</head>
+<body>
+  <h1>Calculadora de Edad</h1>
+  <form onsubmit="calcularEdad(event)">
+    <input type="date" id="fecha" required>
+    <button type="submit">Calcular</button>
+  </form>
+  <p id="resultado"></p>
 
-
-# Obtener la fecha de hoy
-today = datetime.date.today()
-# print("La fecha de hoy es:", today)
-#2025-09-30
-
-#st_input para hacer stream en la web
-
-bornyear = st.text_input('Añade tu fecha de nacimiento (dd/mm/aa): ')
-#if len(bornyear) < 1: 
-#    bornyear = '31/10/2001'
-
-date = bornyear.split('/')
-
-try:
-    day = date[0]
-    month = date[1]
-    year = date[2]
-    
-    day = int(day)
-    month = int(month)
-    year = int(year)
-    
-except:
-    print('Formato no soportado')
-    quit()
-
-name = st.text_input('Añade tu nombre: ')
-#if len(name) < 1: 
-#    name = 'Gil'
-
-
-age = today.year - year
-
-if month > today.month:
-    age = age - 1
-
-elif month == today.month:
-    if day > today.day:
-        age = age - 1
-    
-
-#st.write es como print()
-
-st.write('Hola', name, 'tienes', age, 'años')
-
-#streamlit run tu_programa.py
+  <script>
+    function calcularEdad(e) {
+      e.preventDefault();
+      const fecha = new Date(document.getElementById("fecha").value);
+      const hoy = new Date();
+      let edad = hoy.getFullYear() - fecha.getFullYear();
+      if (
+        hoy.getMonth() < fecha.getMonth() || 
+        (hoy.getMonth() === fecha.getMonth() && hoy.getDate() < fecha.getDate())
+      ) {
+        edad--;
+      }
+      document.getElementById("resultado").textContent = "Tu edad es: " + edad;
+    }
+  </script>
+</body>
+</html>
